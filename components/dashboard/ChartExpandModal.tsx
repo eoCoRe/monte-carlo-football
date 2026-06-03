@@ -53,7 +53,14 @@ export function ChartExpandModal({ title, onClose, children }: ChartExpandModalP
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1 overflow-auto p-6">
+        {/* override hardcoded recharts heights so charts fill the modal */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .chart-expand-body .recharts-responsive-container {
+            height: calc(92vh - 155px) !important;
+            min-height: 360px;
+          }
+        `}} />
+        <div className="chart-expand-body flex-1 overflow-auto p-6">
           {children}
         </div>
       </motion.div>

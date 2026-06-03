@@ -16,6 +16,8 @@ import { HistogramChart } from "@/components/dashboard/HistogramChart"
 import { ConvergenceChart } from "@/components/dashboard/ConvergenceChart"
 import { SensitivityChart } from "@/components/dashboard/SensitivityChart"
 import { ScatterPlot } from "@/components/dashboard/ScatterPlot"
+import { RadarCompareChart } from "@/components/dashboard/RadarCompareChart"
+import { PositionChart } from "@/components/dashboard/PositionChart"
 import { DrilldownModal } from "@/components/dashboard/DrilldownModal"
 import { ChartExpandModal } from "@/components/dashboard/ChartExpandModal"
 import { runMonteCarlo, type Weights, type SimulationResult } from "@/lib/monte-carlo"
@@ -38,7 +40,7 @@ const DEFAULT_WEIGHTS: Weights = {
 
 const CHART_CARD = "bg-slate-800/30 border border-slate-700/50 rounded-2xl p-5 relative group transition-colors hover:border-amber-400/25"
 
-type ExpandableChart = "ranking" | "sensitivity" | "histogram" | "convergence" | "scatter" | "variance"
+type ExpandableChart = "ranking" | "sensitivity" | "histogram" | "convergence" | "scatter" | "variance" | "radar" | "position"
 
 const CHART_TITLES: Record<ExpandableChart, string> = {
   ranking: "Ranking dos Candidatos",
@@ -47,6 +49,8 @@ const CHART_TITLES: Record<ExpandableChart, string> = {
   convergence: "Convergência Monte Carlo",
   scatter: "Coletivo vs Individual",
   variance: "Curva de Variância Estocástica",
+  radar: "Comparação de Atributos — Teia de Aranha",
+  position: "Vitórias por Posição",
 }
 
 export default function Dashboard() {
@@ -107,6 +111,8 @@ export default function Dashboard() {
             {expandedChart === "convergence" && <ConvergenceChart result={result} />}
             {expandedChart === "scatter" && <ScatterPlot result={result} />}
             {expandedChart === "variance" && <VarianceChart result={result} />}
+            {expandedChart === "radar" && <RadarCompareChart result={result} />}
+            {expandedChart === "position" && <PositionChart result={result} />}
           </ChartExpandModal>
         )}
       </AnimatePresence>
@@ -347,6 +353,30 @@ export default function Dashboard() {
                       <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
                     </button>
                     <VarianceChart result={result} />
+                  </div>
+                </div>
+
+                {/* Linha 4: Radar + Posição */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                  <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("radar")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
+                    <RadarCompareChart result={result} />
+                  </div>
+                  <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("position")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
+                    <PositionChart result={result} />
                   </div>
                 </div>
 
