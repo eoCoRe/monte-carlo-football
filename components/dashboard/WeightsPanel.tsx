@@ -2,15 +2,25 @@
 
 import { useState } from "react"
 import {
-  Trophy, Star, Landmark, Shield, Globe, Globe2, Flag, Target, RotateCcw,
+  Trophy, Star, Landmark, Shield, Globe, Globe2, Flag, Target, RotateCcw, Clock,
 } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Separator } from "@/components/ui/separator"
 import type { Weights } from "@/lib/monte-carlo"
 
+const SIM_OPTIONS: { value: number; label: string; time?: string }[] = [
+  { value: 1_000,     label: "1K" },
+  { value: 10_000,    label: "10K" },
+  { value: 100_000,   label: "100K",  time: "~2s" },
+  { value: 500_000,   label: "500K",  time: "~10s" },
+  { value: 1_000_000, label: "1M",    time: "~20s" },
+]
+
 interface WeightsPanelProps {
   weights: Weights
   onChange: (key: keyof Weights, value: number) => void
+  simCount: number
+  onSimCountChange: (n: number) => void
 }
 
 type Tab = "clube" | "selecao"
@@ -74,7 +84,7 @@ function SliderRow({
   )
 }
 
-export function WeightsPanel({ weights, onChange }: WeightsPanelProps) {
+export function WeightsPanel({ weights, onChange, simCount, onSimCountChange }: WeightsPanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>("clube")
 
   const totalPts = Object.values(weights).reduce((a, b) => a + b, 0)
@@ -150,6 +160,43 @@ export function WeightsPanel({ weights, onChange }: WeightsPanelProps) {
           ))}
         </div>
 
+      </div>
+
+      {/* Iterações Monte Carlo */}
+      <div className="flex flex-col gap-2">
+        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+          Iterações Monte Carlo
+        </p>
+        <div className="grid grid-cols-5 gap-1">
+          {SIM_OPTIONS.map((opt) => {
+            const active = simCount === opt.value
+            return (
+              <button
+                key={opt.value}
+                onClick={() => onSimCountChange(opt.value)}
+                title={opt.time ? `Estimativa: ${opt.time}` : undefined}
+                className={`flex flex-col items-center gap-0.5 rounded-lg border px-1 py-2 text-[10px] font-bold transition-all duration-150 active:scale-95 ${
+                  active
+                    ? "border-amber-400/80 bg-amber-400/15 text-amber-300"
+                    : "border-slate-700 bg-slate-800/40 text-slate-400 hover:border-amber-400/40 hover:text-amber-400/80"
+                }`}
+              >
+                {opt.label}
+                {opt.time && (
+                  <span className={`text-[8px] font-normal ${active ? "text-amber-400/70" : "text-slate-600"}`}>
+                    {opt.time}
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+        {simCount > 10_000 && (
+          <p className="flex items-center gap-1 text-[9px] text-amber-400/60">
+            <Clock className="w-2.5 h-2.5" />
+            Simulações pesadas podem demorar alguns segundos.
+          </p>
+        )}
       </div>
 
       <Separator className="bg-slate-800" />

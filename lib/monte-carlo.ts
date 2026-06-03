@@ -355,6 +355,7 @@ export function runMonteCarlo(weights: Weights, totalProfiles = 10000): Simulati
   let globalMaxScore = 0
   let globalMaxPlayer = allPlayers[0]
   const convergenceData: { iteration: number; [key: string]: number }[] = []
+  const sampleEvery = Math.max(50, Math.ceil(totalProfiles / 20))
 
   // ── LÓGICA CORRETA: torneio real ──────────────────────────────────────────
   // Cada iteração = 1 eleição da Bola de Ouro.
@@ -421,7 +422,7 @@ export function runMonteCarlo(weights: Weights, totalProfiles = 10000): Simulati
       playerBestWinAttrs[roundWinner.code] = roundWinnerAttrs
     }
 
-    if ((i + 1) % 500 === 0) {
+    if ((i + 1) % sampleEvery === 0) {
       const entry: { iteration: number; [key: string]: number } = { iteration: i + 1 }
       allPlayers.forEach((pl) => { entry[pl.code] = playerWins[pl.code] })
       convergenceData.push(entry)

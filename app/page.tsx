@@ -59,6 +59,7 @@ export default function Dashboard() {
   const [result, setResult] = useState<SimulationResult | null>(null)
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null)
   const [expandedChart, setExpandedChart] = useState<ExpandableChart | null>(null)
+  const [simCount, setSimCount] = useState(10_000)
 
   const handleWeightChange = useCallback((key: keyof Weights, value: number) => {
     setWeights((prev) => ({ ...prev, [key]: value }))
@@ -67,12 +68,12 @@ export default function Dashboard() {
   const runSimulation = useCallback(() => {
     setAppState("loading")
     setTimeout(() => {
-      const simResult = runMonteCarlo(weights, 10000)
+      const simResult = runMonteCarlo(weights, simCount)
       setResult(simResult)
       setAppState("celebration")
       setTimeout(() => setAppState("results"), 3200)
     }, 2200)
-  }, [weights])
+  }, [weights, simCount])
 
   const resetSimulation = useCallback(() => {
     setAppState("idle")
@@ -141,7 +142,7 @@ export default function Dashboard() {
             </h1>
           </div>
           <p className="text-xs text-slate-400 pl-9">
-            Simulação Estocástica — 10 Lendas do Futebol &bull; Monte Carlo
+            Simulação Estocástica &bull; {simCount.toLocaleString("pt-BR")} iterações &bull; Monte Carlo
           </p>
         </div>
 
@@ -177,6 +178,8 @@ export default function Dashboard() {
           <WeightsPanel
             weights={weights}
             onChange={handleWeightChange}
+            simCount={simCount}
+            onSimCountChange={setSimCount}
           />
         </aside>
 
