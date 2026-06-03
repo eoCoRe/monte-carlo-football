@@ -44,10 +44,10 @@ export function LoadingOverlay() {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-amber-400 font-semibold text-lg tracking-wide"
           >
-            Processando 10.000 perfis genéticos...
+            Simulando 10.000 eleições da Bola de Ouro...
           </motion.p>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Calculando a probabilidade do craque ir pra balada na véspera da final...
+            Em cada cenário, todos os jogadores competem simultaneamente. O maior score vence aquela eleição.
           </p>
         </div>
 

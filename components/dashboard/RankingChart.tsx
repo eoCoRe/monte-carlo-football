@@ -37,16 +37,24 @@ const CustomTooltip = ({
 }
 
 const CustomYAxisTick = ({
-  x, y, payload,
+  x, y, payload, onPlayerClick,
 }: {
   x?: number; y?: number; payload?: { value: string }
+  onPlayerClick?: (code: string) => void
 }) => {
   if (!payload || x === undefined || y === undefined) return null
-  const sep = payload.value.indexOf("|")
-  const countryCode = sep >= 0 ? payload.value.slice(0, sep) : ""
-  const name = sep >= 0 ? payload.value.slice(sep + 1) : payload.value
+  const parts = payload.value.split("|")
+  const countryCode = parts[0] ?? ""
+  const name = parts[1] ?? payload.value
+  const code = parts[2] ?? ""
   return (
-    <g transform={`translate(${x},${y})`}>
+    <g
+      transform={`translate(${x},${y})`}
+      onClick={() => code && onPlayerClick?.(code)}
+      style={{ cursor: onPlayerClick ? "pointer" : "default" }}
+    >
+      {/* Área invisível de clique maior que o texto */}
+      <rect x={-34 - name.length * 5.8 - 32} y={-10} width={name.length * 5.8 + 64} height={20} fill="transparent" />
       <text x={-34} y={0} dy={4} textAnchor="end" fill="#cbd5e1" fontSize={10} fontWeight={600}>
         {name}
       </text>
@@ -75,7 +83,7 @@ export function RankingChart({ result, onPlayerClick }: RankingChartProps) {
     code:        r.player.code,
     country:     r.player.country,
     countryCode: r.player.countryCode,
-    yLabel:      `${r.player.countryCode}|${r.player.shortName}`,
+    yLabel:      `${r.player.countryCode}|${r.player.shortName}|${r.player.code}`,
     count:       r.count,
     avgScore:    r.avgScore,
     color:       i === 0 ? "#FBBF24" : r.player.color,
@@ -120,7 +128,8 @@ export function RankingChart({ result, onPlayerClick }: RankingChartProps) {
           <XAxis type="number" tick={{ fill: "#64748b", fontSize: 10 }}
             axisLine={false} tickLine={false} />
           <YAxis type="category" dataKey="yLabel" width={150}
-            tick={<CustomYAxisTick />} axisLine={false} tickLine={false} />
+            tick={(props: any) => <CustomYAxisTick {...props} onPlayerClick={onPlayerClick} />}
+            axisLine={false} tickLine={false} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
           <Bar dataKey="count" radius={[0, 6, 6, 0]} cursor="pointer"
             onClick={(d) => onPlayerClick(d.code)}>

@@ -23,15 +23,17 @@ import { PixelPlayer } from "@/components/dashboard/PixelPlayer"
 
 type AppState = "idle" | "loading" | "celebration" | "results"
 
+// Pesos somam 100 — cada valor representa % real do critério
 const DEFAULT_WEIGHTS: Weights = {
-  gols: 75,
-  titulosIndividuais: 80,
-  ligaNacional: 60,
-  copaNacional: 40,
-  copaContinentalClubes: 85,
-  mundialClubes: 50,
-  copaContinentalSelecao: 70,
-  copaMundo: 90,
+  gols: 12,
+  assistencias: 10,
+  titulosIndividuais: 14,
+  ligaNacional: 8,
+  copaNacional: 5,
+  copaContinentalClubes: 18,
+  mundialClubes: 7,
+  copaContinentalSelecao: 11,
+  copaMundo: 15,
 }
 
 const CHART_CARD = "bg-slate-800/30 border border-slate-700/50 rounded-2xl p-5"

@@ -88,18 +88,18 @@ export function CelebrationScreen({ winner }: CelebrationScreenProps) {
               transition={{ duration: 1.5, repeat: Infinity }}
               className="text-xs font-bold uppercase tracking-[0.3em] text-amber-400/70"
             >
-              Simulação Concluída
+              10.000 cenários simulados
             </motion.span>
 
             <h1
-              className="text-4xl md:text-6xl font-black tracking-tight leading-tight"
+              className="text-4xl md:text-5xl font-black tracking-tight leading-tight"
               style={{
                 background: "linear-gradient(135deg, #FBBF24 0%, #FDE68A 50%, #F59E0B 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              HABEMUS<br />BOLA DE OURO!
+              MAIOR VENCEDOR<br />DA BOLA DE OURO
             </h1>
 
             <motion.div
@@ -139,7 +139,7 @@ export function CelebrationScreen({ winner }: CelebrationScreenProps) {
           transition={{ delay: 1.4 }}
           className="text-slate-400 text-sm"
         >
-          Revelando o dashboard em instantes...
+          Jogador que venceu mais eleições nos 10.000 cenários Monte Carlo
         </motion.p>
       </div>
     </motion.div>

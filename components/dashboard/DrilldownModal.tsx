@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, TrendingUp, TrendingDown, Minus, Trophy, BarChart3, Radar as RadarIcon } from "lucide-react"
+import { X, TrendingUp, TrendingDown, Trophy, BarChart3, Radar as RadarIcon, Sparkles } from "lucide-react"
 import {
   RadarChart,
   Radar,
@@ -23,7 +23,7 @@ interface DrilldownModalProps {
   onClose: () => void
 }
 
-type Tab = "ganhou" | "criterios" | "radar"
+type Tab = "ganhou" | "criterios" | "radar" | "cenario"
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -204,6 +204,7 @@ export function DrilldownModal({ playerCode, result, weights, onClose }: Drilldo
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "ganhou", label: "Por Que Ganhou", icon: <Trophy className="w-3.5 h-3.5" /> },
+    { id: "cenario", label: "Melhor Cenário", icon: <Sparkles className="w-3.5 h-3.5" /> },
     { id: "criterios", label: "Critérios", icon: <BarChart3 className="w-3.5 h-3.5" /> },
     { id: "radar", label: "Radar", icon: <RadarIcon className="w-3.5 h-3.5" /> },
   ]
@@ -390,6 +391,100 @@ export function DrilldownModal({ playerCode, result, weights, onClose }: Drilldo
                 </div>
               )}
 
+              {/* ── TAB: Melhor Cenário ── */}
+              {tab === "cenario" && (() => {
+                const won = entry.count > 0
+                const scenarioScore = (won ? entry.bestWinScore : entry.bestScore) ?? 0
+                const scenarioAttrs = (won ? entry.bestWinAttributes : entry.bestAttributes) ?? entry.avgAttributes
+
+                return (
+                  <div className="flex flex-col gap-5">
+                    {/* Header */}
+                    <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/60 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-[10px] text-amber-400/70 uppercase tracking-widest font-bold mb-1">
+                          {won ? "Melhor Vitória" : "Melhor Performance"}
+                        </p>
+                        <p className="text-sm text-slate-300 leading-relaxed">
+                          {won
+                            ? `Este foi o cenário exato em que ${entry.player.shortName} obteve o maior score e venceu a eleição da Bola de Ouro entre os 10.000 simulados.`
+                            : `${entry.player.shortName} não venceu nenhuma eleição nos 10.000 cenários. Esta foi sua melhor performance individual.`}
+                        </p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-3xl font-black tabular-nums" style={{ color: entry.player.color }}>
+                          {scenarioScore.toFixed(1)}
+                        </p>
+                        <p className="text-[10px] text-slate-500">score do cenário</p>
+                      </div>
+                    </div>
+
+                    {/* Atributos do cenário vs média */}
+                    <div className="flex flex-col gap-1">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        Atributos neste cenário vs. média do jogador
+                      </p>
+                      {(Object.keys(ATTRIBUTE_LABELS) as (keyof Weights)[]).map((key) => {
+                        const scenarioVal = Math.round((scenarioAttrs[key] ?? 0) * 10) / 10
+                        const avgVal = Math.round(entry.avgAttributes[key] * 10) / 10
+                        const diff = Math.round((scenarioVal - avgVal) * 10) / 10
+                        const pctScenario = scenarioVal
+                        const pctAvg = avgVal
+
+                        return (
+                          <div key={key} className="flex flex-col gap-0.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold text-slate-300">
+                                {ATTRIBUTE_LABELS_SHORT[key]}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[11px] font-black text-white tabular-nums">
+                                  {scenarioVal}
+                                </span>
+                                <span className={`text-[10px] font-bold tabular-nums px-1.5 py-0.5 rounded ${
+                                  diff > 0
+                                    ? "text-green-400 bg-green-400/10"
+                                    : diff < 0
+                                    ? "text-red-400 bg-red-400/10"
+                                    : "text-slate-400 bg-slate-700/50"
+                                }`}>
+                                  {diff > 0 ? "+" : ""}{diff} vs média
+                                </span>
+                              </div>
+                            </div>
+                            <div className="relative h-3 bg-slate-700 rounded-full overflow-hidden">
+                              {/* Média (linha base) */}
+                              <div
+                                className="absolute top-0 h-full rounded-full opacity-30"
+                                style={{ width: `${pctAvg}%`, backgroundColor: entry.player.color }}
+                              />
+                              {/* Cenário (barra principal) */}
+                              <div
+                                className="absolute top-0 h-full rounded-full"
+                                style={{
+                                  width: `${pctScenario}%`,
+                                  background: `linear-gradient(90deg, ${entry.player.color}88, ${entry.player.color})`,
+                                  boxShadow: diff > 5 ? `0 0 6px ${entry.player.color}80` : "none",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    <div className="flex items-center gap-4 text-[10px] text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <span className="w-4 h-2 rounded inline-block opacity-30" style={{ backgroundColor: entry.player.color }} /> Média do jogador
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="w-4 h-2 rounded inline-block" style={{ backgroundColor: entry.player.color }} /> Neste cenário
+                      </span>
+                    </div>
+                  </div>
+                )
+              })()}
+
               {/* ── TAB: Critérios ── */}
               {tab === "criterios" && (
                 <div className="flex flex-col gap-4">
@@ -435,7 +530,7 @@ export function DrilldownModal({ playerCode, result, weights, onClose }: Drilldo
                       <PolarAngleAxis dataKey="attribute" tick={{ fill: "#94a3b8", fontSize: 10 }} />
                       <PolarRadiusAxis
                         angle={90}
-                        domain={[40, 100]}
+                        domain={[0, 100]}
                         tick={{ fill: "#475569", fontSize: 9 }}
                         tickCount={4}
                       />
