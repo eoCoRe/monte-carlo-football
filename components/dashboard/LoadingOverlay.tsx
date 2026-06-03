@@ -3,7 +3,16 @@
 import { motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 
-export function LoadingOverlay() {
+interface LoadingOverlayProps {
+  simCount: number
+}
+
+export function LoadingOverlay({ simCount }: LoadingOverlayProps) {
+  const label = simCount >= 1_000_000
+    ? `${(simCount / 1_000_000).toLocaleString("pt-BR")} milhão`
+    : simCount >= 1_000
+    ? `${(simCount / 1_000).toLocaleString("pt-BR")}.000`
+    : simCount.toLocaleString("pt-BR")
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -44,7 +53,7 @@ export function LoadingOverlay() {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-amber-400 font-semibold text-lg tracking-wide"
           >
-            Simulando 10.000 eleições da Bola de Ouro...
+            Simulando {label} eleições da Bola de Ouro...
           </motion.p>
           <p className="text-slate-400 text-sm leading-relaxed">
             Em cada cenário, todos os jogadores competem simultaneamente. O maior score vence aquela eleição.

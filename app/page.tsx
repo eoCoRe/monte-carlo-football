@@ -83,7 +83,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
-      <AnimatePresence>{appState === "loading" && <LoadingOverlay />}</AnimatePresence>
+      <AnimatePresence>{appState === "loading" && <LoadingOverlay simCount={simCount} />}</AnimatePresence>
 
       <AnimatePresence>
         {appState === "celebration" && result && (
