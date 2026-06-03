@@ -45,13 +45,6 @@ const p = (
   variance,
 })
 
-// ─── Modo AS Lendas ────────────────────────────────────────────────────────────
-export const LENDAS_PLAYERS: PlayerProfile[] = [
-  p("Caça Rato",    "Caça Rato",    "CACAATO",     "ST","Campo de Areia","br","#FBBF24", 100,100,100,100,100,100,100,100,100, 1),
-  p("Deyerson",     "Deyerson",     "DEYERSON",    "CM","Campo de Areia","br","#22C55E", 100,100,100,100,100,100,100,100,100, 1),
-  p("Lima Matador", "Lima Matador", "LIMAMATADOR", "ST","Campo de Areia","br","#EF4444", 100,100,100,100,100,100,100,100,100, 1),
-]
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Stats baseadas em conquistas reais 2018-2025. Escala 0-100 por categoria.
 //
@@ -327,8 +320,8 @@ const HIST_MIN = 70
 const HIST_BUCKET_SIZE = 2
 const HIST_COUNT = 16
 
-export function runMonteCarlo(weights: Weights, totalProfiles = 10000, extraPlayers: PlayerProfile[] = []): SimulationResult {
-  const allPlayers = [...PLAYERS, ...extraPlayers]
+export function runMonteCarlo(weights: Weights, totalProfiles = 10000): SimulationResult {
+  const allPlayers = PLAYERS
   const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0) || 1
   const attrKeys: (keyof Weights)[] = [
     "gols","assistencias","titulosIndividuais","ligaNacional","copaNacional",

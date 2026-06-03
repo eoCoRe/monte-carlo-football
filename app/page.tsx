@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Trophy, RotateCcw } from "lucide-react"
+import { Trophy, RotateCcw, Maximize2 } from "lucide-react"
 import { PLAYERS, flagUrl } from "@/lib/monte-carlo"
 import { Button } from "@/components/ui/button"
 import { WeightsPanel } from "@/components/dashboard/WeightsPanel"
@@ -16,9 +16,9 @@ import { HistogramChart } from "@/components/dashboard/HistogramChart"
 import { ConvergenceChart } from "@/components/dashboard/ConvergenceChart"
 import { SensitivityChart } from "@/components/dashboard/SensitivityChart"
 import { ScatterPlot } from "@/components/dashboard/ScatterPlot"
-import { AsLegendasSection } from "@/components/dashboard/AsLegendasSection"
 import { DrilldownModal } from "@/components/dashboard/DrilldownModal"
-import { runMonteCarlo, LENDAS_PLAYERS, type Weights, type SimulationResult } from "@/lib/monte-carlo"
+import { ChartExpandModal } from "@/components/dashboard/ChartExpandModal"
+import { runMonteCarlo, type Weights, type SimulationResult } from "@/lib/monte-carlo"
 import { PixelPlayer } from "@/components/dashboard/PixelPlayer"
 
 type AppState = "idle" | "loading" | "celebration" | "results"
@@ -36,14 +36,25 @@ const DEFAULT_WEIGHTS: Weights = {
   copaMundo: 15,
 }
 
-const CHART_CARD = "bg-slate-800/30 border border-slate-700/50 rounded-2xl p-5"
+const CHART_CARD = "bg-slate-800/30 border border-slate-700/50 rounded-2xl p-5 relative group transition-colors hover:border-amber-400/25"
+
+type ExpandableChart = "ranking" | "sensitivity" | "histogram" | "convergence" | "scatter" | "variance"
+
+const CHART_TITLES: Record<ExpandableChart, string> = {
+  ranking: "Ranking dos Candidatos",
+  sensitivity: "Análise de Sensibilidade",
+  histogram: "Distribuição de Scores",
+  convergence: "Convergência Monte Carlo",
+  scatter: "Coletivo vs Individual",
+  variance: "Curva de Variância Estocástica",
+}
 
 export default function Dashboard() {
   const [appState, setAppState] = useState<AppState>("idle")
   const [weights, setWeights] = useState<Weights>(DEFAULT_WEIGHTS)
   const [result, setResult] = useState<SimulationResult | null>(null)
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null)
-  const [legendasMode, setLegendasMode] = useState(false)
+  const [expandedChart, setExpandedChart] = useState<ExpandableChart | null>(null)
 
   const handleWeightChange = useCallback((key: keyof Weights, value: number) => {
     setWeights((prev) => ({ ...prev, [key]: value }))
@@ -52,7 +63,7 @@ export default function Dashboard() {
   const runSimulation = useCallback(() => {
     setAppState("loading")
     setTimeout(() => {
-      const simResult = runMonteCarlo(weights, 10000, legendasMode ? LENDAS_PLAYERS : [])
+      const simResult = runMonteCarlo(weights, 10000)
       setResult(simResult)
       setAppState("celebration")
       setTimeout(() => setAppState("results"), 3200)
@@ -83,6 +94,22 @@ export default function Dashboard() {
           onClose={() => setSelectedPlayer(null)}
         />
       )}
+
+      <AnimatePresence>
+        {expandedChart && result && (
+          <ChartExpandModal
+            title={CHART_TITLES[expandedChart]}
+            onClose={() => setExpandedChart(null)}
+          >
+            {expandedChart === "ranking" && <RankingChart result={result} onPlayerClick={setSelectedPlayer} />}
+            {expandedChart === "sensitivity" && <SensitivityChart result={result} weights={weights} />}
+            {expandedChart === "histogram" && <HistogramChart result={result} />}
+            {expandedChart === "convergence" && <ConvergenceChart result={result} />}
+            {expandedChart === "scatter" && <ScatterPlot result={result} />}
+            {expandedChart === "variance" && <VarianceChart result={result} />}
+          </ChartExpandModal>
+        )}
+      </AnimatePresence>
 
       {/* Header */}
       <header
@@ -144,8 +171,6 @@ export default function Dashboard() {
           <WeightsPanel
             weights={weights}
             onChange={handleWeightChange}
-            legendasMode={legendasMode}
-            onLegendasToggle={() => setLegendasMode((v) => !v)}
           />
         </aside>
 
@@ -256,9 +281,23 @@ export default function Dashboard() {
                 {/* Linha 1: Ranking + Sensibilidade */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("ranking")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <RankingChart result={result} onPlayerClick={setSelectedPlayer} />
                   </div>
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("sensitivity")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <SensitivityChart result={result} weights={weights} />
                   </div>
                 </div>
@@ -266,9 +305,23 @@ export default function Dashboard() {
                 {/* Linha 2: Histograma + Convergência */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("histogram")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <HistogramChart result={result} />
                   </div>
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("convergence")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <ConvergenceChart result={result} />
                   </div>
                 </div>
@@ -276,9 +329,23 @@ export default function Dashboard() {
                 {/* Linha 3: Scatter + Variância */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("scatter")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <ScatterPlot result={result} />
                   </div>
                   <div className={CHART_CARD}>
+                    <button
+                      onClick={() => setExpandedChart("variance")}
+                      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-700/80 hover:bg-amber-400/20 border border-slate-600 hover:border-amber-400/50 rounded-lg p-1.5"
+                      title="Expandir gráfico"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                    </button>
                     <VarianceChart result={result} />
                   </div>
                 </div>

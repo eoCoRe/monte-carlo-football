@@ -11,8 +11,6 @@ import type { Weights } from "@/lib/monte-carlo"
 interface WeightsPanelProps {
   weights: Weights
   onChange: (key: keyof Weights, value: number) => void
-  legendasMode: boolean
-  onLegendasToggle: () => void
 }
 
 type Tab = "clube" | "selecao"
@@ -76,7 +74,7 @@ function SliderRow({
   )
 }
 
-export function WeightsPanel({ weights, onChange, legendasMode, onLegendasToggle }: WeightsPanelProps) {
+export function WeightsPanel({ weights, onChange }: WeightsPanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>("clube")
 
   const totalPts = Object.values(weights).reduce((a, b) => a + b, 0)
@@ -152,28 +150,6 @@ export function WeightsPanel({ weights, onChange, legendasMode, onLegendasToggle
           ))}
         </div>
 
-        {/* AS Lendas */}
-        <button
-          onClick={onLegendasToggle}
-          className={`w-full flex items-center justify-center gap-2 rounded-lg border px-3 py-2 text-[11px] font-bold transition-all duration-150 active:scale-95 ${
-            legendasMode
-              ? "border-amber-400/80 bg-amber-400/15 text-amber-300"
-              : "border-slate-700 bg-slate-800/40 text-slate-400 hover:border-amber-400/40 hover:text-amber-400/80"
-          }`}
-        >
-          <span className="text-base leading-none">🐀</span>
-          AS LENDAS DO BAIRRO
-          {legendasMode && (
-            <span className="ml-auto text-[9px] bg-amber-400/20 border border-amber-400/40 text-amber-400 rounded-full px-1.5 py-0.5">
-              ATIVO
-            </span>
-          )}
-        </button>
-        {legendasMode && (
-          <p className="text-[9px] text-amber-400/60 text-center leading-relaxed">
-            Caça Rato · Deyerson · Lima Matador aparecem nos resultados
-          </p>
-        )}
       </div>
 
       <Separator className="bg-slate-800" />
