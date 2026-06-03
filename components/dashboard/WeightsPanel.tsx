@@ -26,24 +26,35 @@ interface WeightsPanelProps {
 type Tab = "clube" | "selecao"
 
 // Todos os presets somam exatamente 100 pontos
-const PRESETS: { label: string; desc: string; icon: React.ReactNode; values: Weights }[] = [
+// Artilheiro  → Haaland domina (gols: 45)
+// Rei da Champions → Corrida acirrada UCL (CL: 50 — Messi/CR7/Benzema/Vini/Modrić todos 92–94)
+// Herói da Copa → foco em Seleção (copaMundo+copaContinSel = 58)
+// Grande Disputa ★ → Liga+CL equiponderados, 5+ candidatos dentro de ~8 pts
+const PRESETS: { label: string; desc: string; icon: React.ReactNode; values: Weights; highlight?: boolean }[] = [
   {
-    label: "Goleador",
-    desc: "Foco total em gols marcados",
+    label: "Artilheiro",
+    desc: "Gols decidem — Haaland é o favorito",
     icon: <Target className="w-3.5 h-3.5" />,
-    values: { gols: 40, assistencias: 5, titulosIndividuais: 15, ligaNacional: 8, copaNacional: 4, copaContinentalClubes: 12, mundialClubes: 5, copaContinentalSelecao: 6, copaMundo: 5 },
+    values: { gols: 45, assistencias: 16, titulosIndividuais: 10, ligaNacional: 8, copaNacional: 5, copaContinentalClubes: 8, mundialClubes: 4, copaContinentalSelecao: 2, copaMundo: 2 },
   },
   {
-    label: "Campeão",
-    desc: "Prioriza conquistas coletivas",
+    label: "Rei da Champions",
+    desc: "UCL é o critério supremo — raça acirrada",
+    icon: <Globe className="w-3.5 h-3.5" />,
+    values: { gols: 5, assistencias: 5, titulosIndividuais: 1, ligaNacional: 15, copaNacional: 7, copaContinentalClubes: 50, mundialClubes: 10, copaContinentalSelecao: 5, copaMundo: 2 },
+  },
+  {
+    label: "Herói da Copa",
+    desc: "Copa do Mundo é o sonho maior",
+    icon: <Flag className="w-3.5 h-3.5" />,
+    values: { gols: 4, assistencias: 4, titulosIndividuais: 8, ligaNacional: 8, copaNacional: 5, copaContinentalClubes: 7, mundialClubes: 6, copaContinentalSelecao: 28, copaMundo: 30 },
+  },
+  {
+    label: "Grande Disputa",
+    desc: "5 candidatos em corrida acirrada ★",
     icon: <Trophy className="w-3.5 h-3.5" />,
-    values: { gols: 5, assistencias: 5, titulosIndividuais: 10, ligaNacional: 8, copaNacional: 5, copaContinentalClubes: 20, mundialClubes: 12, copaContinentalSelecao: 15, copaMundo: 20 },
-  },
-  {
-    label: "Lenda",
-    desc: "Equilíbrio entre tudo",
-    icon: <Star className="w-3.5 h-3.5" />,
-    values: { gols: 15, assistencias: 12, titulosIndividuais: 18, ligaNacional: 8, copaNacional: 5, copaContinentalClubes: 14, mundialClubes: 7, copaContinentalSelecao: 10, copaMundo: 11 },
+    values: { gols: 10, assistencias: 10, titulosIndividuais: 1, ligaNacional: 30, copaNacional: 10, copaContinentalClubes: 30, mundialClubes: 5, copaContinentalSelecao: 3, copaMundo: 1 },
+    highlight: true,
   },
 ]
 
@@ -146,16 +157,25 @@ export function WeightsPanel({ weights, onChange, simCount, onSimCountChange }: 
         <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
           Cenários Pré-Definidos
         </p>
-        <div className="grid grid-cols-3 gap-1.5">
+        <div className="grid grid-cols-2 gap-1.5">
           {PRESETS.map((preset) => (
             <button
               key={preset.label}
               onClick={() => applyPreset(preset.values)}
               title={preset.desc}
-              className="flex flex-col items-center gap-1 rounded-lg border border-slate-700 bg-slate-800/40 px-2 py-2 text-[10px] font-medium text-slate-300 transition-all duration-150 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-300 active:scale-95"
+              className={`flex flex-col items-start gap-1 rounded-lg border px-2.5 py-2 text-[10px] font-medium transition-all duration-150 active:scale-95 ${
+                preset.highlight
+                  ? "border-amber-400/50 bg-amber-400/8 text-amber-300 hover:border-amber-400/80 hover:bg-amber-400/15"
+                  : "border-slate-700 bg-slate-800/40 text-slate-300 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-300"
+              }`}
             >
-              <span className="text-slate-400">{preset.icon}</span>
-              {preset.label}
+              <span className={preset.highlight ? "text-amber-400" : "text-slate-400"}>
+                {preset.icon}
+              </span>
+              <span className="font-bold leading-tight">{preset.label}</span>
+              <span className={`text-[9px] leading-tight ${preset.highlight ? "text-amber-400/70" : "text-slate-500"}`}>
+                {preset.desc}
+              </span>
             </button>
           ))}
         </div>
