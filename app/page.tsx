@@ -65,6 +65,10 @@ export default function Dashboard() {
     setWeights((prev) => ({ ...prev, [key]: value }))
   }, [])
 
+  const handleApplyPreset = useCallback((w: Weights) => {
+    setWeights(w)
+  }, [])
+
   const runSimulation = useCallback(() => {
     setAppState("loading")
     setTimeout(() => {
@@ -178,6 +182,7 @@ export default function Dashboard() {
           <WeightsPanel
             weights={weights}
             onChange={handleWeightChange}
+            onApplyPreset={handleApplyPreset}
             simCount={simCount}
             onSimCountChange={setSimCount}
           />

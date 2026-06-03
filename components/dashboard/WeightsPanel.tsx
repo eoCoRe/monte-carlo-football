@@ -19,6 +19,7 @@ const SIM_OPTIONS: { value: number; label: string; time?: string }[] = [
 interface WeightsPanelProps {
   weights: Weights
   onChange: (key: keyof Weights, value: number) => void
+  onApplyPreset: (w: Weights) => void
   simCount: number
   onSimCountChange: (n: number) => void
 }
@@ -95,15 +96,19 @@ function SliderRow({
   )
 }
 
-export function WeightsPanel({ weights, onChange, simCount, onSimCountChange }: WeightsPanelProps) {
+export function WeightsPanel({ weights, onChange, onApplyPreset, simCount, onSimCountChange }: WeightsPanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>("clube")
 
   const totalPts = Object.values(weights).reduce((a, b) => a + b, 0)
   const remaining = 100 - totalPts
 
   const applyPreset = (values: Weights) => {
-    ;(Object.keys(values) as (keyof Weights)[]).forEach((key) => onChange(key, values[key]))
+    onApplyPreset(values)
   }
+
+  const activePreset = PRESETS.find(p =>
+    (Object.keys(p.values) as (keyof Weights)[]).every(k => weights[k] === p.values[k])
+  )
 
   const zerar = () => {
     ;(Object.keys(ZERO_WEIGHTS) as (keyof Weights)[]).forEach((key) => onChange(key, 0))
@@ -158,26 +163,31 @@ export function WeightsPanel({ weights, onChange, simCount, onSimCountChange }: 
           Cenários Pré-Definidos
         </p>
         <div className="grid grid-cols-2 gap-1.5">
-          {PRESETS.map((preset) => (
-            <button
-              key={preset.label}
-              onClick={() => applyPreset(preset.values)}
-              title={preset.desc}
-              className={`flex flex-col items-start gap-1 rounded-lg border px-2.5 py-2 text-[10px] font-medium transition-all duration-150 active:scale-95 ${
-                preset.highlight
-                  ? "border-amber-400/50 bg-amber-400/8 text-amber-300 hover:border-amber-400/80 hover:bg-amber-400/15"
-                  : "border-slate-700 bg-slate-800/40 text-slate-300 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-300"
-              }`}
-            >
-              <span className={preset.highlight ? "text-amber-400" : "text-slate-400"}>
-                {preset.icon}
-              </span>
-              <span className="font-bold leading-tight">{preset.label}</span>
-              <span className={`text-[9px] leading-tight ${preset.highlight ? "text-amber-400/70" : "text-slate-500"}`}>
-                {preset.desc}
-              </span>
-            </button>
-          ))}
+          {PRESETS.map((preset) => {
+            const isActive = activePreset?.label === preset.label
+            return (
+              <button
+                key={preset.label}
+                onClick={() => applyPreset(preset.values)}
+                title={preset.desc}
+                className={`flex flex-col items-start gap-1 rounded-lg border px-2.5 py-2 text-[10px] font-medium transition-all duration-150 active:scale-95 ${
+                  isActive
+                    ? "border-amber-400 bg-amber-400/20 text-amber-300"
+                    : preset.highlight
+                    ? "border-amber-400/50 bg-amber-400/8 text-amber-300 hover:border-amber-400/80 hover:bg-amber-400/15"
+                    : "border-slate-700 bg-slate-800/40 text-slate-300 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-300"
+                }`}
+              >
+                <span className={isActive || preset.highlight ? "text-amber-400" : "text-slate-400"}>
+                  {preset.icon}
+                </span>
+                <span className="font-bold leading-tight">{preset.label}</span>
+                <span className={`text-[9px] leading-tight ${isActive ? "text-amber-300/80" : preset.highlight ? "text-amber-400/70" : "text-slate-500"}`}>
+                  {preset.desc}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
       </div>
