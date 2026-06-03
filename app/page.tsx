@@ -178,7 +178,7 @@ export default function Dashboard() {
       </header>
 
       <div className="flex flex-col lg:flex-row min-h-[calc(100vh-73px)]">
-        <aside className="w-full lg:w-72 xl:w-80 shrink-0 border-b lg:border-b-0 lg:border-r border-slate-800 p-5 bg-slate-900/40">
+        <aside className="w-full lg:w-72 xl:w-80 shrink-0 border-b lg:border-b-0 lg:border-r border-slate-800 p-5 bg-slate-900/40 lg:overflow-y-auto lg:max-h-[calc(100vh-73px)]">
           <WeightsPanel
             weights={weights}
             onChange={handleWeightChange}
