@@ -173,16 +173,14 @@ export function WeightsPanel({ weights, onChange, onApplyPreset, simCount, onSim
                 className={`flex flex-col items-start gap-1 rounded-lg border px-2.5 py-2 text-[10px] font-medium transition-all duration-150 active:scale-95 ${
                   isActive
                     ? "border-amber-400 bg-amber-400/20 text-amber-300"
-                    : preset.highlight
-                    ? "border-amber-400/50 bg-amber-400/8 text-amber-300 hover:border-amber-400/80 hover:bg-amber-400/15"
                     : "border-slate-700 bg-slate-800/40 text-slate-300 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-300"
                 }`}
               >
-                <span className={isActive || preset.highlight ? "text-amber-400" : "text-slate-400"}>
+                <span className={isActive ? "text-amber-400" : "text-slate-400"}>
                   {preset.icon}
                 </span>
                 <span className="font-bold leading-tight">{preset.label}</span>
-                <span className={`text-[9px] leading-tight ${isActive ? "text-amber-300/80" : preset.highlight ? "text-amber-400/70" : "text-slate-500"}`}>
+                <span className={`text-[9px] leading-tight ${isActive ? "text-amber-300/80" : "text-slate-500"}`}>
                   {preset.desc}
                 </span>
               </button>
