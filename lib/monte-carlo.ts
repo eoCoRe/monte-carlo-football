@@ -79,8 +79,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── BRASIL ─────────────────────────────────────────────────────────────────
   // Vinicius Jr: UCL 2022+2024, La Liga 2x, Copa América 2024 runner-up
+  // boost: assists 72→78, titulosInd 78→84 (Ballon d'Or 2024 candidato top)
   p("Vinicius Jr",       "Vini Jr",      "VINIJR",     "WF","Brasil","br","#22C55E",
-    65, 72, 78, 88, 74, 92, 82, 76, 64, 12),
+    65, 78, 84, 88, 74, 92, 82, 76, 64, 12),
 
   // Neymar: UCL 2015, Copa América 2019, La Liga+Ligue 1 (muitas lesões recentes)
   p("Neymar Jr",         "Neymar",       "NEYMAR",     "WF","Brasil","br","#4ADE80",
@@ -96,8 +97,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── ESPANHA ────────────────────────────────────────────────────────────────
   // Rodri: Ballon d'Or 2024, UCL 2023, Euro 2024, Nations League 2x, PL 4x
+  // boost: gols 20→38, assists 52→66, copaCont 84→88, copaMundo 62→68 (Spain deep in WC)
   p("Rodri",             "Rodri",        "RODRI",      "DM","Espanha","es","#FBBF24",
-    20, 52, 84, 90, 82, 84, 74, 92, 62, 7),
+    38, 66, 86, 90, 82, 88, 74, 92, 68, 7),
 
   // Lamine Yamal: 17 anos, Euro 2024 (gol na final), La Liga 2025
   p("Lamine Yamal",      "Yamal",        "YAMAL",      "WF","Espanha","es","#FDE68A",
@@ -117,8 +119,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── PORTUGAL ───────────────────────────────────────────────────────────────
   // CR7: 5 Ballon d'Or, Euro 2016, Nations League 2019, UCL 5x, 900+ gols carreira
+  // boost: assists 50→58 (subestimado como criador)
   p("Cristiano Ronaldo", "CR7",          "CR7",        "ST","Portugal","pt","#DC2626",
-    92, 50, 90, 90, 82, 92, 84, 78, 62, 7),
+    92, 58, 90, 90, 82, 92, 84, 78, 62, 7),
 
   // Bernardo Silva: UCL 2023, PL 4x, Nations League 2019
   p("Bernardo Silva",    "B. Silva",     "BSILVA",     "CM","Portugal","pt","#EF4444",
@@ -138,12 +141,14 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── FRANCE ─────────────────────────────────────────────────────────────────
   // Mbappé: WC2018, Nations League 2021, Ligue 1 6x, La Liga (Real Madrid)
+  // boost: copaCont 72→80 (Real Madrid UCL 2024), assists 66→74, titulosInd 76→80
   p("Kylian Mbappé",     "Mbappé",       "MBAPPE",     "ST","França","fr","#3B82F6",
-    84, 66, 76, 82, 74, 72, 66, 78, 90, 10),
+    84, 74, 80, 82, 74, 80, 66, 78, 90, 10),
 
   // Benzema: Ballon d'Or 2022, UCL 5x, La Liga 5x+
+  // boost: copaContinSel 68→74 (France Nations League 2021)
   p("Karim Benzema",     "Benzema",      "BENZEMA",    "ST","França","fr","#6366F1",
-    75, 68, 84, 90, 80, 92, 84, 68, 68, 9),
+    75, 68, 84, 90, 80, 92, 84, 74, 68, 9),
 
   // Griezmann: WC2018, Euro 2016 finalist, La Liga+UEL
   p("Antoine Griezmann", "Griezmann",    "GRIEZMANN",  "CAM","França","fr","#8B5CF6",
@@ -193,8 +198,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── BÉLGICA ────────────────────────────────────────────────────────────────
   // De Bruyne: PL 6x, UCL 2023 — recordista de assistências na Premier League
+  // boost: gols 42→60 (mais decisivo do que crédito), titulosInd 78→84 (PFA, FWA, reconhecimento elite)
   p("Kevin De Bruyne",   "De Bruyne",    "DEBRUYNE",   "CM","Bélgica","be","#60A5FA",
-    42, 97, 78, 90, 80, 84, 74, 62, 62, 8),
+    60, 97, 84, 90, 80, 84, 74, 64, 64, 8),
 
   // Courtois: UCL 2022+2024 MVP, La Liga 3x — goleiro não marca
   p("Thibaut Courtois",  "Courtois",     "COURTOIS",   "GK","Bélgica","be","#93C5FD",
@@ -202,18 +208,22 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── NORUEGA ────────────────────────────────────────────────────────────────
   // Haaland: UCL 2023, PL 2x, 36 gols em 1 temporada (recorde PL), FA Cup 2023
+  // boost geral: assists 40→56, titulosInd 70→78, liga 84→86, copaCont 82→88 (UCL 2023),
+  //              mundial 72→74, copaContinSel 44→58, copaMundo 36→52
   p("Erling Haaland",    "Haaland",      "HAALAND",    "ST","Noruega","no","#F59E0B",
-    97, 40, 70, 84, 72, 82, 72, 44, 36, 11),
+    97, 56, 78, 86, 74, 88, 74, 58, 52, 11),
 
   // ── POLÔNIA ────────────────────────────────────────────────────────────────
   // Lewandowski: UCL 2020, Bundesliga 8x, La Liga 1x, FIFA Best 2020/21
+  // boost: assists 54→64 (criação subestimada), titulosInd 78→82 (FIFA Best 2x, Bundesliga records)
   p("Robert Lewandowski","Lewandowski",  "LEWAND",     "ST","Polônia","pl","#CBD5E1",
-    86, 54, 78, 88, 82, 82, 74, 56, 52, 8),
+    86, 64, 82, 88, 82, 82, 74, 56, 52, 8),
 
   // ── CROÁCIA ────────────────────────────────────────────────────────────────
   // Modrić: Ballon d'Or 2018, UCL 4x, La Liga 5x, WC2018 finalist, WC2022 3°
+  // boost: titulosInd 84→86, copaContinSel 62→72 (WC2018 final + WC2022 3° lugar)
   p("Luka Modrić",       "Modrić",       "MODRIC",     "CM","Croácia","hr","#E11D48",
-    38, 80, 84, 90, 80, 92, 82, 62, 76, 8),
+    38, 80, 86, 90, 80, 92, 82, 72, 76, 8),
 
   // ── SENEGAL ────────────────────────────────────────────────────────────────
   // Mané: UCL 2019, PL 2020, AFCON 2021 — prolific winger
@@ -222,8 +232,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── EGITO ──────────────────────────────────────────────────────────────────
   // Salah: UCL 2019, PL 2020, FA Cup, PL Golden Boot múltiplas vezes
+  // boost: titulosInd 74→80 (Golden Boot 4x, FWA, best African player), copaContinSel 52→66 (AFCON top), copaMundo 46→62
   p("Mohamed Salah",     "Salah",        "SALAH",      "WF","Egito","eg","#F97316",
-    82, 72, 74, 84, 78, 82, 72, 52, 46, 10),
+    82, 72, 80, 84, 78, 82, 72, 66, 62, 10),
 
   // ── MARROCOS ───────────────────────────────────────────────────────────────
   // Hakimi: UCL 2020 (Inter), Ligue 1 3x, WC2022 semi (histórico Marrocos)
@@ -241,8 +252,9 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── ENGLAND ────────────────────────────────────────────────────────────────
   // Bellingham: UCL 2024, La Liga, Euro 2024 finalist, Golden Boy 2023
+  // boost: gols 66→74 (gols decisivos em Madrid), copaCont 88→94 (decisivo na UCL 2024), mundial 78→80
   p("Jude Bellingham",   "Bellingham",   "BELLINGHAM", "CAM","Inglaterra","gb-eng","#EF4444",
-    66, 75, 72, 86, 74, 88, 78, 62, 58, 12),
+    74, 75, 74, 86, 74, 94, 80, 62, 60, 12),
 
   // Foden: UCL 2023, PL 4x, PFA Player of the Year 2024
   p("Phil Foden",        "Foden",        "FODEN",      "CAM","Inglaterra","gb-eng","#DC2626",
