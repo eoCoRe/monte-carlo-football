@@ -58,8 +58,10 @@ export const PLAYERS: PlayerProfile[] = [
 
   // ── ARGENTINA ──────────────────────────────────────────────────────────────
   // Messi: 8 Ballon d'Or, WC2022, Copa América 2021+2024, UCL 4x, La Liga 10x
+  // Nerf: titulosInd 99→91 (gap excessivo vs CR7), copaContinClubes 94→84 (4 UCLs todos 2006-15),
+  //        variance 8→11 (fase Inter Miami / PSG inconsistente)
   p("Lionel Messi",      "Messi",        "MESSI",      "CAM","Argentina","ar","#38BDF8",
-    80, 92, 99, 88, 85, 94, 82, 92, 95, 8),
+    80, 92, 91, 88, 85, 84, 82, 92, 95, 11),
 
   // Julián Álvarez: artilheiro WC2022, Copa América 2024, UCL 2023
   p("Julián Álvarez",    "J. Álvarez",   "JALVAREZ",   "ST","Argentina","ar","#60A5FA",
