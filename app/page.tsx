@@ -302,7 +302,7 @@ export default function Dashboard() {
                     >
                       <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
                     </button>
-                    <RankingChart result={result} onPlayerClick={setSelectedPlayer} />
+                    <RankingChart result={result} onPlayerClick={setSelectedPlayer} limit={10} />
                   </div>
                   <div className={CHART_CARD}>
                     <button

@@ -11,6 +11,7 @@ import { flagUrl } from "@/lib/monte-carlo"
 interface RankingChartProps {
   result: SimulationResult
   onPlayerClick: (code: string) => void
+  limit?: number
 }
 
 const MEDAL_COLORS = [
@@ -94,7 +95,7 @@ const CustomYAxisTick = ({
   )
 }
 
-export function RankingChart({ result, onPlayerClick }: RankingChartProps) {
+export function RankingChart({ result, onPlayerClick, limit }: RankingChartProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [chartWidth, setChartWidth] = useState(700)
 
@@ -109,16 +110,17 @@ export function RankingChart({ result, onPlayerClick }: RankingChartProps) {
     return () => ro.disconnect()
   }, [])
 
+  const rankings = limit ? result.rankings.slice(0, limit) : result.rankings
   const total = result.rankings.reduce((s, r) => s + r.count, 0) || 1
   const BAR_SIZE = 30
   const ROW_H   = BAR_SIZE + 18
-  const chartH  = result.rankings.length * ROW_H + 24
+  const chartH  = rankings.length * ROW_H + 24
 
   // Y-axis width scales with available space (min 180, max 260)
   const Y_WIDTH = Math.min(260, Math.max(180, Math.round(chartWidth * 0.16)))
   const R_MARGIN = Math.round(chartWidth * 0.07)
 
-  const data = result.rankings.map((r, i) => ({
+  const data = rankings.map((r, i) => ({
     name:        r.player.name,
     shortName:   r.player.shortName,
     code:        r.player.code,
@@ -143,7 +145,7 @@ export function RankingChart({ result, onPlayerClick }: RankingChartProps) {
             Ranking Completo — Todos os Jogadores
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            {result.rankings.length} jogadores · clique para ver o Raio-X
+            {limit ? `Top ${limit} de ${result.rankings.length}` : `${result.rankings.length} jogadores`} · clique para ver o Raio-X
           </p>
         </div>
         <span className="inline-flex items-center gap-1.5 text-sm bg-amber-400/10 border border-amber-400/30
