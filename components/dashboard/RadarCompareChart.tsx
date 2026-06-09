@@ -39,15 +39,14 @@ export function RadarCompareChart({ result }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-bold text-slate-200 uppercase tracking-widest">
+        <p className="text-sm font-bold text-slate-200 uppercase tracking-widest">
           Comparação de Atributos
         </p>
-        <p className="text-[10px] text-slate-500">
+        <p className="text-xs text-slate-500">
           Scores base reais de cada jogador nos 9 critérios
         </p>
       </div>
 
-      {/* Player selectors */}
       <div className="grid grid-cols-2 gap-3">
         <PlayerSelector
           label="Jogador 1"
@@ -74,12 +73,12 @@ export function RadarCompareChart({ result }: Props) {
           <PolarGrid stroke="#1e293b" />
           <PolarAngleAxis
             dataKey="attribute"
-            tick={{ fill: "#94a3b8", fontSize: 10, fontWeight: 500 }}
+            tick={{ fill: "#94a3b8", fontSize: 13, fontWeight: 500 }}
           />
           <PolarRadiusAxis
             angle={90}
             domain={[0, 100]}
-            tick={{ fill: "#475569", fontSize: 9 }}
+            tick={{ fill: "#475569", fontSize: 11 }}
             tickCount={4}
             axisLine={false}
           />
@@ -89,7 +88,7 @@ export function RadarCompareChart({ result }: Props) {
             stroke={r1.player.color}
             fill={r1.player.color}
             fillOpacity={0.2}
-            strokeWidth={2}
+            strokeWidth={3}
           />
           <Radar
             name={r2.player.shortName}
@@ -97,11 +96,11 @@ export function RadarCompareChart({ result }: Props) {
             stroke={r2.player.color}
             fill={r2.player.color}
             fillOpacity={0.2}
-            strokeWidth={2}
+            strokeWidth={3}
           />
           <Legend
             formatter={(value) => (
-              <span style={{ color: "#e2e8f0", fontSize: 11 }}>{value}</span>
+              <span style={{ color: "#e2e8f0", fontSize: 13 }}>{value}</span>
             )}
           />
           <Tooltip
@@ -109,7 +108,7 @@ export function RadarCompareChart({ result }: Props) {
               background: "#1e293b",
               border: "1px solid #334155",
               borderRadius: 8,
-              fontSize: 11,
+              fontSize: 13,
             }}
             labelStyle={{ color: "#f1f5f9", fontWeight: 700, marginBottom: 4 }}
           />
@@ -132,23 +131,23 @@ function PlayerSelector({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">{label}</p>
+      <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">{label}</p>
       <div
-        className="flex items-center gap-2 rounded-lg border bg-slate-800/60 px-2.5 py-2"
+        className="flex items-center gap-2 rounded-lg border bg-slate-800/60 px-3 py-2.5"
         style={{ borderColor: `${color}60` }}
       >
         <img
           src={flagUrl(player.countryCode)}
           alt={player.country}
-          width={20}
-          height={14}
+          width={22}
+          height={16}
           className="rounded-sm object-cover shrink-0"
-          style={{ width: 20, height: 14 }}
+          style={{ width: 22, height: 16 }}
         />
         <select
           value={value}
           onChange={e => onChange(e.target.value)}
-          className="flex-1 appearance-none bg-transparent text-xs font-semibold text-slate-200 cursor-pointer focus:outline-none"
+          className="flex-1 appearance-none bg-transparent text-sm font-semibold text-slate-200 cursor-pointer focus:outline-none"
         >
           {rankings
             .filter(r => r.player.code !== exclude)

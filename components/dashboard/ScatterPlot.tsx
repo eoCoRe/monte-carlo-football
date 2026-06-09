@@ -32,17 +32,17 @@ const CustomTooltip = ({
           <img
             src={flagUrl(d.countryCode)}
             alt=""
-            width={20}
-            height={15}
+            width={22}
+            height={16}
             className="rounded-sm object-cover"
-            style={{ width: 20, height: 14 }}
+            style={{ width: 22, height: 16 }}
           />
           <p className="text-white font-bold text-sm">{d.name}</p>
         </div>
-        <p className="text-xs text-slate-300">
+        <p className="text-sm text-slate-300">
           Sucesso coletivo (Sel.): <span className="text-amber-400 font-bold">{d.x}</span>
         </p>
-        <p className="text-xs text-slate-300">
+        <p className="text-sm text-slate-300">
           Brilho individual: <span className="text-amber-400 font-bold">{d.y}</span>
         </p>
       </div>
@@ -60,14 +60,14 @@ const CustomDot = (props: {
   if (!cx || !cy || !payload) return null
   return (
     <g>
-      <circle cx={cx} cy={cy} r={10} fill={payload.color} fillOpacity={0.85} />
-      <circle cx={cx} cy={cy} r={10} fill="none" stroke={payload.color} strokeWidth={1.5} strokeOpacity={0.5} />
+      <circle cx={cx} cy={cy} r={14} fill={payload.color} fillOpacity={0.85} />
+      <circle cx={cx} cy={cy} r={14} fill="none" stroke={payload.color} strokeWidth={2} strokeOpacity={0.5} />
       <text
         x={cx}
-        y={cy + 22}
+        y={cy + 26}
         textAnchor="middle"
         fill="#cbd5e1"
-        fontSize={9}
+        fontSize={12}
         fontWeight={600}
       >
         {payload.shortName}
@@ -89,28 +89,28 @@ export function ScatterPlot({ result }: ScatterPlotProps) {
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
-        <ScatterChart margin={{ top: 20, right: 30, left: 0, bottom: 30 }}>
+        <ScatterChart margin={{ top: 20, right: 30, left: 0, bottom: 36 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
           <XAxis
             type="number"
             dataKey="x"
             domain={[30, 100]}
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           >
-            <Label value="Sucesso Coletivo (Seleção)" position="insideBottom" offset={-18} fill="#475569" fontSize={11} />
+            <Label value="Sucesso Coletivo (Seleção)" position="insideBottom" offset={-22} fill="#475569" fontSize={13} />
           </XAxis>
           <YAxis
             type="number"
             dataKey="y"
             domain={[60, 100]}
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
-            width={30}
+            width={36}
           >
-            <Label value="Brilho Individual" angle={-90} position="insideLeft" offset={12} fill="#475569" fontSize={11} />
+            <Label value="Brilho Individual" angle={-90} position="insideLeft" offset={14} fill="#475569" fontSize={13} />
           </YAxis>
           <Tooltip content={<CustomTooltip />} />
           <Scatter

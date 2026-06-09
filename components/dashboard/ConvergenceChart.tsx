@@ -28,12 +28,12 @@ const CustomTooltip = ({
   if (active && payload?.length) {
     const sorted = [...payload].sort((a, b) => b.value - a.value)
     return (
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl min-w-[160px]">
-        <p className="text-slate-400 text-xs mb-2 font-semibold">
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl min-w-[180px]">
+        <p className="text-slate-400 text-sm mb-2 font-semibold">
           Iteração {Number(label).toLocaleString("pt-BR")}
         </p>
         {sorted.slice(0, 5).map((p) => (
-          <p key={p.name} className="text-xs" style={{ color: p.color }}>
+          <p key={p.name} className="text-sm" style={{ color: p.color }}>
             {p.name}: <span className="font-bold">{p.value}</span>
           </p>
         ))}
@@ -44,7 +44,6 @@ const CustomTooltip = ({
 }
 
 export function ConvergenceChart({ result }: ConvergenceChartProps) {
-  // top 5 jogadores para não poluir o gráfico
   const top5 = result.rankings.slice(0, 5)
 
   return (
@@ -61,28 +60,28 @@ export function ConvergenceChart({ result }: ConvergenceChartProps) {
       <ResponsiveContainer width="100%" height={280}>
         <LineChart
           data={result.convergenceData}
-          margin={{ top: 4, right: 8, left: 0, bottom: 16 }}
+          margin={{ top: 4, right: 8, left: 0, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
           <XAxis
             dataKey="iteration"
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => `${v / 1000}k`}
-            label={{ value: "Iterações", position: "insideBottom", offset: -10, fill: "#475569", fontSize: 11 }}
+            label={{ value: "Iterações", position: "insideBottom", offset: -12, fill: "#475569", fontSize: 13 }}
           />
           <YAxis
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
-            width={36}
+            width={40}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
             formatter={(value) => {
               const p = top5.find(r => r.player.code === value)
-              return <span style={{ color: "#94a3b8", fontSize: 11 }}>{p?.player.shortName ?? value}</span>
+              return <span style={{ color: "#94a3b8", fontSize: 13 }}>{p?.player.shortName ?? value}</span>
             }}
           />
           {top5.map((r, i) => (
@@ -91,9 +90,9 @@ export function ConvergenceChart({ result }: ConvergenceChartProps) {
               type="monotone"
               dataKey={r.player.code}
               stroke={r.player.color}
-              strokeWidth={i === 0 ? 2.5 : 1.5}
+              strokeWidth={i === 0 ? 3.5 : 2}
               dot={false}
-              activeDot={{ r: 4 }}
+              activeDot={{ r: 6 }}
             />
           ))}
         </LineChart>

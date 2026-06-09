@@ -22,21 +22,21 @@ export function ChartExpandModal({ title, onClose, children }: ChartExpandModalP
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(2, 6, 23, 0.95)", backdropFilter: "blur(8px)" }}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(2, 6, 23, 0.98)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <motion.div
-        initial={{ scale: 0.96, opacity: 0 }}
+        initial={{ scale: 0.98, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.96, opacity: 0 }}
+        exit={{ scale: 0.98, opacity: 0 }}
         transition={{ duration: 0.18, ease: "easeOut" }}
-        className="w-[95vw] h-[92vh] bg-slate-900 border border-slate-700/80 rounded-2xl flex flex-col overflow-hidden"
-        style={{ boxShadow: "0 0 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(251,191,36,0.08)" }}
+        className="w-full h-full bg-slate-900 flex flex-col overflow-hidden"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 shrink-0">
+        <div className="flex items-center justify-between px-10 py-6 border-b border-slate-700 shrink-0"
+          style={{ background: "linear-gradient(to bottom, #0f172a, #0c1526)" }}>
           <h3
-            className="text-base font-black uppercase tracking-widest"
+            className="text-3xl font-black uppercase tracking-widest"
             style={{
               background: "linear-gradient(135deg, #FBBF24 0%, #FDE68A 100%)",
               WebkitBackgroundClip: "text",
@@ -47,20 +47,32 @@ export function ChartExpandModal({ title, onClose, children }: ChartExpandModalP
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors rounded-lg p-1.5 hover:bg-slate-800"
+            className="text-slate-400 hover:text-white transition-colors rounded-xl p-2.5 hover:bg-slate-800 border border-slate-700 hover:border-slate-500"
             title="Fechar (Esc)"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
-        {/* override hardcoded recharts heights so charts fill the modal */}
+        {/* expand: fill height + scale up all text for presentation */}
         <style dangerouslySetInnerHTML={{ __html: `
           .chart-expand-body .recharts-responsive-container {
-            height: calc(92vh - 155px) !important;
-            min-height: 360px;
+            height: calc(100vh - 110px) !important;
+            min-height: 400px;
+          }
+          .chart-expand-body .recharts-cartesian-axis-tick text,
+          .chart-expand-body .recharts-polar-angle-axis-tick text,
+          .chart-expand-body .recharts-polar-radius-axis text {
+            font-size: 15px !important;
+            font-weight: 500 !important;
+          }
+          .chart-expand-body .recharts-legend-item-text {
+            font-size: 15px !important;
+          }
+          .chart-expand-body .recharts-text.recharts-label {
+            font-size: 15px !important;
           }
         `}} />
-        <div className="chart-expand-body flex-1 overflow-auto p-6">
+        <div className="chart-expand-body flex-1 overflow-auto px-10 py-8">
           {children}
         </div>
       </motion.div>

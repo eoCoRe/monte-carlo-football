@@ -28,9 +28,9 @@ const CustomTooltip = ({
   if (active && payload?.length) {
     return (
       <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl">
-        <p className="text-slate-400 text-xs mb-2">Score: {label}</p>
+        <p className="text-slate-400 text-sm mb-2">Score: {label}</p>
         {payload.map((p) => (
-          <p key={p.name} className="text-xs font-medium" style={{ color: p.color }}>
+          <p key={p.name} className="text-sm font-medium" style={{ color: p.color }}>
             {p.name}: {(p.value * 1000).toFixed(2)}‰
           </p>
         ))}
@@ -53,7 +53,7 @@ export function VarianceChart({ result }: VarianceChartProps) {
       </div>
 
       <ResponsiveContainer width="100%" height={360}>
-        <AreaChart data={result.distributionData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+        <AreaChart data={result.distributionData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
           <defs>
             {top3.map((r) => (
               <linearGradient
@@ -72,11 +72,11 @@ export function VarianceChart({ result }: VarianceChartProps) {
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
           <XAxis
             dataKey="score"
-            tick={{ fill: "#64748b", fontSize: 11 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => v.toFixed(0)}
-            label={{ value: "Score", position: "insideBottom", offset: -2, fill: "#475569", fontSize: 11 }}
+            label={{ value: "Score", position: "insideBottom", offset: -12, fill: "#475569", fontSize: 13 }}
           />
           <YAxis hide />
           <Tooltip content={<CustomTooltip />} />
@@ -84,7 +84,7 @@ export function VarianceChart({ result }: VarianceChartProps) {
             formatter={(value) => {
               const entry = top3.find((r) => r.player.code === value)
               return (
-                <span style={{ color: "#94a3b8", fontSize: 12 }}>
+                <span style={{ color: "#94a3b8", fontSize: 13 }}>
                   {entry?.player.shortName ?? value}
                 </span>
               )
@@ -96,7 +96,7 @@ export function VarianceChart({ result }: VarianceChartProps) {
               type="monotone"
               dataKey={r.player.code}
               stroke={r.player.color}
-              strokeWidth={i === 0 ? 2.5 : 1.5}
+              strokeWidth={i === 0 ? 3.5 : 2.5}
               fill={`url(#grad-${r.player.code})`}
               fillOpacity={0.4}
             />

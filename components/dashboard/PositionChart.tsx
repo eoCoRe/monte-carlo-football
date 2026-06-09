@@ -41,13 +41,13 @@ const CustomTooltip = ({
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl max-w-56">
+    <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl max-w-64">
       <p className="text-white font-bold text-sm mb-1">{d.label}</p>
       <p className="font-semibold text-sm" style={{ color: "#FBBF24" }}>
         {d.wins.toLocaleString()} vitórias — {d.pct}%
       </p>
       {d.topPlayers && (
-        <p className="text-slate-400 text-[11px] mt-1.5 leading-relaxed">{d.topPlayers}</p>
+        <p className="text-slate-400 text-xs mt-1.5 leading-relaxed">{d.topPlayers}</p>
       )}
     </div>
   )
@@ -86,33 +86,33 @@ export function PositionChart({ result }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-0.5">
-        <p className="text-xs font-bold text-slate-200 uppercase tracking-widest">
+        <p className="text-sm font-bold text-slate-200 uppercase tracking-widest">
           Vitórias por Posição
         </p>
-        <p className="text-[10px] text-slate-500">
+        <p className="text-xs text-slate-500">
           Total de vitórias acumuladas por posição nas 10.000 simulações
         </p>
       </div>
 
       <ResponsiveContainer width="100%" height={280}>
-        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 56, left: 8, bottom: 0 }}>
+        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 70, left: 8, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
           <XAxis
             type="number"
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
             type="category"
             dataKey="label"
-            tick={{ fill: "#cbd5e1", fontSize: 10, fontWeight: 500 }}
-            width={108}
+            tick={{ fill: "#cbd5e1", fontSize: 12, fontWeight: 500 }}
+            width={130}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
-          <Bar dataKey="wins" radius={[0, 6, 6, 0]} maxBarSize={22}>
+          <Bar dataKey="wins" radius={[0, 8, 8, 0]} maxBarSize={36}>
             {data.map(entry => (
               <Cell
                 key={entry.pos}
@@ -124,7 +124,7 @@ export function PositionChart({ result }: Props) {
               dataKey="pct"
               position="right"
               formatter={(v: number) => `${v}%`}
-              style={{ fill: "#94a3b8", fontSize: 10, fontWeight: 600 }}
+              style={{ fill: "#94a3b8", fontSize: 13, fontWeight: 600 }}
             />
           </Bar>
         </BarChart>

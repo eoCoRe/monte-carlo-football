@@ -29,20 +29,20 @@ const CustomTooltip = ({
   if (active && payload?.length) {
     const d = payload[0].payload
     return (
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl max-w-[200px]">
-        <p className="text-white font-bold text-xs mb-2">{d.label}</p>
-        <p className="text-xs text-slate-300">
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 shadow-2xl max-w-[220px]">
+        <p className="text-white font-bold text-sm mb-2">{d.label}</p>
+        <p className="text-sm text-slate-300">
           Score do jogador: <span className="text-amber-400 font-bold">{d.playerAvg.toFixed(1)}</span>
         </p>
-        <p className="text-xs text-slate-300">
+        <p className="text-sm text-slate-300">
           Média global: <span className="text-slate-400">{d.globalAvg.toFixed(1)}</span>
         </p>
-        <p className="text-xs text-slate-300">
+        <p className="text-sm text-slate-300">
           Diferença: <span className={d.delta >= 0 ? "text-green-400 font-bold" : "text-red-400 font-bold"}>
             {d.delta >= 0 ? "+" : ""}{d.delta.toFixed(1)}
           </span>
         </p>
-        <p className="text-xs text-slate-300 mt-1">
+        <p className="text-sm text-slate-300 mt-1">
           Peso na fórmula: <span className="text-amber-400 font-bold">{d.weight}%</span>
         </p>
       </div>
@@ -91,13 +91,13 @@ export function SensitivityChart({ result, weights }: SensitivityChartProps) {
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 4, right: 50, left: 110, bottom: 4 }}
-          barSize={16}
+          margin={{ top: 4, right: 60, left: 8, bottom: 4 }}
+          barSize={28}
         >
           <CartesianGrid horizontal={false} stroke="#1e293b" strokeDasharray="3 3" />
           <XAxis
             type="number"
-            tick={{ fill: "#64748b", fontSize: 10 }}
+            tick={{ fill: "#64748b", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => v.toFixed(1)}
@@ -105,19 +105,19 @@ export function SensitivityChart({ result, weights }: SensitivityChartProps) {
           <YAxis
             type="category"
             dataKey="label"
-            width={110}
-            tick={{ fill: "#cbd5e1", fontSize: 10 }}
+            width={130}
+            tick={{ fill: "#cbd5e1", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
           <ReferenceLine x={0} stroke="#475569" strokeDasharray="3 3" />
-          <Bar dataKey="impact" radius={[0, 4, 4, 0]}>
+          <Bar dataKey="impact" radius={[0, 6, 6, 0]}>
             {data.map((entry, i) => (
               <Cell
                 key={i}
                 fill={entry.impact >= 0 ? "#22C55E" : "#EF4444"}
-                fillOpacity={0.8}
+                fillOpacity={0.85}
               />
             ))}
           </Bar>
